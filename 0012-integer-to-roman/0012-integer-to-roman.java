@@ -1,65 +1,31 @@
 class Solution {
     public String intToRoman(int num) {
-        String roman="";
+        StringBuilder roman = new StringBuilder("");
         int copy=num;
-        int d= copy%10;
-        units:{
+        int i=6;
+	    char ch[]= {'M', 'D', 'C', 'L', 'X', 'V', 'I'};
+        while(copy>0){
+            int d= copy%10;
             if(d==9){
-                roman = "IX" + roman;
+                roman.insert(0, ch[i]);
+                roman.insert(1, ch[i-2]);
             }
             else if(d>=5){
-                roman = "V" + roman;
-                for(int i= 0; i< d-5; i++)
-                    roman+= "I";
+                roman.insert(0, ch[i-1]);
+                for(int j= 0; j< d-5; j++)
+                    roman.insert(1, ch[i]);
             }
-            else if(d==4)
-                roman+="IV";
+            else if(d==4){
+                roman.insert(0, ch[i]);
+                roman.insert(1, ch[i-1]);
+            }
             else
-                for(int i= 0; i< d; i++)
-                    roman+= "I";
+                for(int j= 0; j< d; j++)
+                   roman.insert(0, ch[i]);
+            copy= copy/10;
+            i=i-2;
         }
-        copy= copy/10;
-        d=copy%10;
-        tens: {
-            if(d==9){
-                roman = "XC" + roman;
-            }
-            else if(d>=5){
-                for(int i= 0; i< d-5; i++)
-                    roman= "X" + roman;
-                roman = "L" + roman;
-                
-            }
-            else if(d==4)
-                roman="XL"+roman;
-            else
-                for(int i= 0; i< d; i++)
-                    roman= "X" + roman;
-        }
-        copy= copy/10;
-        d= copy%10;
-        hundreds: {
-            if(d==9){
-                roman = "CM" + roman;
-            }
-            else if(d>=5){
-                for(int i= 0; i< d-5; i++)
-                    roman= "C" + roman;
-                roman = "D" + roman;
-                
-            }
-            else if(d==4)
-                roman="CD"+roman;
-            else
-                for(int i= 0; i< d; i++)
-                    roman= "C" + roman;
-        }
-        copy= copy/10;
-        d= copy%10;
-        thousands: {
-                for(int i= 0; i< d; i++)
-                    roman= "M" + roman;
-        }
-        return roman;
+        
+        return roman.toString();
     }
 }
